@@ -385,9 +385,9 @@ class PlatformAuthenticatorMakeCredentialSession: AuthenticatorMakeCredentialSes
                     
                     // TODO Extension Processing
                     let extensions = SimpleOrderedDictionary<String>()
-                    
                     let attestedCredData = AttestedCredentialData(aaguid: UUIDHelper.zeroBytes, credentialId: credentialId, credentialPublicKey: publicKeyCOSE)
-                    let authenticatorData = AuthenticatorData(rpIdHash: Array(rpEntity.id!.sha256!.bytes), userPresent: (requireUserPresence || requireUserVerification), userVerified: requireUserVerification, signCount: 0, attestedCredentialData: attestedCredData, extensions: extensions)
+                    let rpIdHashBytes: [UInt8] = Array<UInt8>(rpEntity.id!.sha256!)
+                    let authenticatorData = AuthenticatorData(rpIdHash: rpIdHashBytes, userPresent: (requireUserPresence || requireUserVerification), userVerified: requireUserVerification, signCount: 0, attestedCredentialData: attestedCredData, extensions: extensions)
                     
                     guard let attestation = PlatformAttestation.create(authData: authenticatorData, clientDataHash: hash, alg: keySupport.selectedAlg, keyLabel: credSource.keyLabel, attestationPreference: attestationPreference) else {
                         let logMessage = "Failed to create Attestation object"
