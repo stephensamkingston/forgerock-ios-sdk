@@ -185,7 +185,8 @@ class PlatformAuthenticatorGetAssertionSession: AuthenticatorGetAssertionSession
                     
                     //  Generate AuthenticatorData based on the information
                     let extensions = SimpleOrderedDictionary<String>()
-                    let authenticatorData = AuthenticatorData(rpIdHash: rpId.sha256!.bytes, userPresent: (requireUserPresence || requireUserVerification), userVerified: requireUserVerification, signCount: newSignCount, attestedCredentialData: nil, extensions: extensions)
+                    let rpIdHashBytes: [UInt8] = Array<UInt8>(rpId.sha256!)
+                    let authenticatorData = AuthenticatorData(rpIdHash: rpIdHashBytes, userPresent: (requireUserPresence || requireUserVerification), userVerified: requireUserVerification, signCount: newSignCount, attestedCredentialData: nil, extensions: extensions)
                     let authenticatorDataBytes = authenticatorData.toBytes()
                     
                     var data = authenticatorDataBytes
