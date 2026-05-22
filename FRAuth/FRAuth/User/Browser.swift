@@ -576,11 +576,10 @@ extension Browser: SFSafariViewControllerDelegate {
     }
 }
 
-
 //  MARK: - ASWebAuthenticationPresentationContextProviding
+@available(iOS 13.0, *)
 extension Browser: ASWebAuthenticationPresentationContextProviding {
     /// Delegation method for ASWebAuthenticationPresentationContextProviding; only available for iOS 13.0 or above
-    @available(iOS 13.0, *)
     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         if let presentingViewController = self.presentingViewController, let window = presentingViewController.view.window {
             return window
@@ -590,7 +589,6 @@ extension Browser: ASWebAuthenticationPresentationContextProviding {
         }
     }
 }
-
 
 //  MARK: - BrowserBuilder
 
@@ -608,8 +606,7 @@ public class BrowserBuilder: NSObject {
     var oAuth2Client: OAuth2Client
     /// Current KeychainManager to persist OIDC session
     var keychainManager: KeychainManager
-    
-    
+
     /// Constructs BrowserBuilder object with OAuth2Client, and SessionManager
     /// - Parameters:
     ///   - oAuth2Client: OAuth2Client to be used for constructing /authorize request
@@ -618,8 +615,7 @@ public class BrowserBuilder: NSObject {
         self.oAuth2Client = oAuth2Client
         self.keychainManager = keychainManager
     }
-    
-    
+
     /// Sets BrowserType (an external user-agent) for Browser object; default to .authSession
     /// - Parameter browserType: An external user-agent type to be used for /authorize flow
     /// - Returns: BrowserBuilder object to progressively build Browser object
@@ -628,7 +624,6 @@ public class BrowserBuilder: NSObject {
         return self
     }
     
-    
     /// Sets presenting ViewController which will be used as ASPresentationAnchor for ASWebAuthenticationSession in iOS 13.0 or above
     /// - Parameter presentingViewController: ViewController that will act as ASPresentationAnchor for ASWebAuthenticationSession
     /// - Returns: BrowserBuilder object to progressively build Browser object
@@ -636,8 +631,7 @@ public class BrowserBuilder: NSObject {
         self.presentingViewController = presentingViewController
         return self
     }
-    
-    
+
     /// Sets custom URL Query parameters to be added to /authorize request
     /// - Parameters:
     ///   - key: URL Query parameter key
@@ -647,8 +641,7 @@ public class BrowserBuilder: NSObject {
         customParam[key] = value
         return self
     }
-    
-    
+
     /// Completes progressive building of Browser object, and constructs Browser object based on given values
     /// - Returns: Browser object to start authentication
     @objc public func build() -> Browser {
